@@ -1,0 +1,27 @@
+#map {
+    position: absolute;
+    width: 58%;
+    height: 70%;
+}
+
+#plot {
+    position: absolute;
+    left: 60%;
+    width: 40%;
+    height: 70%;
+    padding-left: 1%;
+
+    background-color: #48687f;
+}
+
+#plot_heading {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: #c5cdd2;
+}
+
+#barChartRace {
+    position: absolute;
+    top: 50%;
+    width: 50%;
+}
