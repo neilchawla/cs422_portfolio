@@ -1,27 +1,49 @@
 #map {
     position: absolute;
     width: 58%;
-    height: 70%;
+    height: 50%;
 }
 
 #plot {
     position: absolute;
     left: 60%;
     width: 40%;
-    height: 70%;
+    height: 50%;
     padding-left: 1%;
 
-    background-color: #48687f;
+    background-color: #d3d3d3;
+    opacity: 60%;
 }
 
 #plot_heading {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: center;
-    color: #c5cdd2;
+    color: #1b1c1c;
 }
 
 #barChartRace {
     position: absolute;
     top: 50%;
     width: 50%;
+}
+
+#dropdownDiv {
+    padding-left: 5%;
+}
+
+#dropdown {
+    width: 150px !important;
+    font: Arial, Helvetica, sans-serif;
+}
+
+#label {
+    font: Arial, Helvetica, sans-serif;
+}
+
+#barplot {
+    padding-top: 5%;
+}
+
+.scaleColor {
+    color: #23395d;
 }

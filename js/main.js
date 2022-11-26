@@ -22,15 +22,19 @@ function createMap() {
 
     function resetHighlight(e) {
         geojson.resetStyle(e.target);
-        d3.selectAll("rect").style('fill', 'rgb(200,200,200)')
+        d3.selectAll("rect").style('fill', 'rgb(35, 57, 93)')
     }
 
     function clickFeature(e) {
         d3.selectAll('#plot').selectAll('svg').remove();
         var bar = d3.selectAll('#plot').append('svg').style('width', '100%').style('height', '100%');
 
-        var width = 25;
-        var height = 15;
+        // var width = 25;
+        // var height = 15;
+
+        var width = document.getElementById('plot').clientWidth;
+        var height = document.getElementById('plot').clientHeight;
+        console.log(height);
 
         var g = bar.selectAll('.bar')
             .data([e.target.feature.properties.VIOLATIONS])
@@ -45,10 +49,10 @@ function createMap() {
         g.append('rect')
             .style('stroke-width', '1')
             .style('stroke', 'rgb(0,0,0)')
-            .style('fill', 'rgb(200,200,200)')
+            .style('fill', 'rgb(35, 57, 93)')
             .attr('x', 0)
-            .attr('y', 250)
-            .attr('height', height)
+            .attr('y', height / 4)
+            .attr('height', 15)
             .attr('id', e.target.feature.properties.INTERSECTION)
             .transition()
             .duration(500)
@@ -57,14 +61,15 @@ function createMap() {
 
         // Chart Scale
         g.append('g')
+            .attr('class', 'scaleColor')
             .call(d3.axisBottom(xScale))
-            .attr('transform', `translate(0, 275)`);
+            .attr('transform', `translate(0, ${(height / 4) + 25})`);
 
         // Chart Label
         g.append('text')
-            .style('fill', '#c5cdd2')
+            .style('fill', '#1b1c1c')
             .attr('x', 0)
-            .attr('y', 225)
+            .attr('y', (height / 4) - 10)
             .text(e.target.feature.properties.INTERSECTION + ': ' + e.target.feature.properties.VIOLATIONS);
     }
 
@@ -92,42 +97,12 @@ function createMap() {
     }).addTo(map);
 }
 
-function createBarChart() {
-
-    var barChart = d3.selectAll('#plot').append('svg').style('width', '100%').style('height', '100%');
-    var width = 25;
-    var height = 15;
-    // console.log(violations['features']);
-    var g = barChart.selectAll('.bar')
-        .data(violations['features'])
-        .enter()
-        .append('g')
-        .attr('class', 'bar');
-    
-    var x = d3.scaleLog().domain([1,50000]).range([0,200]);
-    // console.log(x(10));
-
-    g.append('rect')
-        .style('stroke-width', '1')
-        .style('stroke', 'rgb(0,0,0)')
-        .style('fill', 'rgb(200,200,200)')
-        .attr('x', 200)
-        .attr('y', (d,i) => {return 5+(height+5)*i})
-        .attr('width', (d,i) => {return x(d['properties']['VIOLATIONS'])})
-        .attr('height', height)
-        .attr('id', (d,i) => {
-            return d['properties']['INTERSECTION'].substring(0, 50)
-        })
-
-    g.append('text')
-        .attr('x', 0)
-        .attr('y', (d,i) => {return 15+(height+5)*i})
-        .text((d,i) => {return d['properties']['INTERSECTION'].substring(0, 20);})
-
-}
-
 function init() {
     createMap();
+
+    document.getElementById('dropdown').oninput = function() {
+        createBarChart(this.value);
+    }
 }
 
 window.onload = init;
