@@ -1,5 +1,5 @@
 function createMap() {
-    var map = L.map('map').setView([41.881832, -87.623177], 11);
+    var map = L.map('map', { drawControl: true }).setView([41.881832, -87.623177], 11);
 
     var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -34,7 +34,6 @@ function createMap() {
 
         var width = document.getElementById('plot').clientWidth;
         var height = document.getElementById('plot').clientHeight;
-        console.log(height);
 
         var g = bar.selectAll('.bar')
             .data([e.target.feature.properties.VIOLATIONS])
@@ -61,7 +60,7 @@ function createMap() {
 
         // Chart Scale
         g.append('g')
-            .attr('class', 'scaleColor')
+            .attr('class', 'scaleColorCustom')
             .call(d3.axisBottom(xScale))
             .attr('transform', `translate(0, ${(height / 4) + 25})`);
 
@@ -103,6 +102,20 @@ function init() {
     document.getElementById('dropdown').oninput = function() {
         createBarChart(this.value);
     }
+
+    const scatter = brushablePlot()
+    const bar = barChart()
+
+    d3.select(scatter).on('input', () => {
+        bar.update(scatter.value)
+    })
+
+    bar.update(scatter.value)
+
+    // document.getElementById('brushplot').appendChild(scatter);
+    // document.getElementById('dayplot').appendChild(bar);
+
+    return html`<div">${scatter}${bar}</div>`;
 }
 
 window.onload = init;
